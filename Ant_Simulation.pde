@@ -2,7 +2,7 @@ int numAnts = 1000;
 int numBases = 1;
 int numFoods = 1;
 
-int baseSize = 100;
+int baseSize = 200;
 int foodSize = 150;
 
 int fRate = 60;
@@ -13,11 +13,16 @@ Base[] bases = new Base[numBases];
 Food[] foods = new Food[numFoods];
 
 void setup() {
-     fullScreen();
-    //size(300, 300);
+    fullScreen();
+    // size(900, 900);
     smooth();
     frameRate(fRate);
     ellipseMode(CENTER);
+    rectMode(CENTER);
+    textAlign(CENTER, CENTER);
+
+    PFont mainFont = createFont("Poppins-Regular.ttf", 64);
+    textFont(mainFont);
     
     fill(0, 255, 0);
     for (int i=0; i<numFoods; i++) {
@@ -39,6 +44,9 @@ void draw() {
     
     fill(0, 255, 0);
     for (int i=0; i<numFoods; i++) {
+        if (foods[i].count <= 0) {
+            foods[i] = new Food(foodSize);
+        }
         foods[i].update();
     }
     

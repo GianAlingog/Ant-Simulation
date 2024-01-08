@@ -4,16 +4,16 @@ class Food {
     // For now, only one Food should be present at all times.
     // Randomly spawning, yet should not spawn within a certain radius of the Ant Hill.
     
-    int size;
+    int size, count = int(random(40, 61)); // 40-60
     float posX, posY;
     final int clearance = 50;
-    final int baseSize = 100; // I understand that this a bad way to do it, but I'm lazy.
+    final int baseSize = 200;
     
     Food(int size) {
         this.size = size;
         
-        // just checks if it's too close to a base (currently only implementing for one center base and one food)
-        // don't worry I also "love" the readability of this code..
+        // Makes sure the Food doesn't spawn in too close to the Base
+        // Note: This could spawn outside the screen, will fix soon.
         posX = random(0 + size + clearance, width - clearance * 3 - baseSize);
         posY = random(0 + size + clearance, height - clearance * 3 - baseSize);
         
@@ -21,9 +21,13 @@ class Food {
         posY = ((abs(posY - height/2) < baseSize/2 + clearance + size/2) ? (posY + clearance * 3 + baseSize) : posY);
         
         ellipse(posX, posY, size, size);
+        fill(0, 0, 0);
+        text(count, posX, posY);
     }
     
     void update() {
         ellipse(posX, posY, size, size);
+        fill(0, 0, 0);
+        text(count, posX, posY);
     }
 }
