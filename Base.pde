@@ -10,9 +10,7 @@ class Base {
         this.posX = width/2;
         this.posY = height/2;
         
-        rect(posX, posY, size, size);
-        fill(0, 0, 0);
-        text(count, posX, posY);
+        update();
     }
     
     Base(int size, int x, int y) {
@@ -20,9 +18,7 @@ class Base {
         this.posX = x;
         this.posY = y;
         
-        rect(posX, posY, size, size);
-        fill(0, 0, 0);
-        text(count, posX, posY);
+        update();
     }
     
     void update() {

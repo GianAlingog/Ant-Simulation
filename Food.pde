@@ -4,7 +4,7 @@ class Food {
     // For now, only one Food should be present at all times.
     // Randomly spawning, yet should not spawn within a certain radius of the Ant Hill.
     
-    int size, count = int(random(40, 61)); // 40-60
+    int size, replaceTime = 400, count = int(random(40, 61)); // 40-60
     float posX, posY;
     final int clearance = 50;
     final int baseSize = 200;
@@ -20,14 +20,16 @@ class Food {
         posX = ((abs(posX - width/2) < baseSize/2 + clearance + size/2) ? (posX + clearance * 3 + baseSize) : posX);
         posY = ((abs(posY - height/2) < baseSize/2 + clearance + size/2) ? (posY + clearance * 3 + baseSize) : posY);
         
-        ellipse(posX, posY, size, size);
-        fill(0, 0, 0);
-        text(count, posX, posY);
+        update();
     }
     
     void update() {
-        ellipse(posX, posY, size, size);
-        fill(0, 0, 0);
-        text(count, posX, posY);
+        if (count > 0) {
+            ellipse(posX, posY, size, size);
+            fill(0, 0, 0);
+            text(count, posX, posY);
+        } else {
+            replaceTime--;
+        }
     }
 }

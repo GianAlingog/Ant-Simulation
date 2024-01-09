@@ -7,64 +7,73 @@ int foodSize = 150;
 
 int fRate = 60;
 
+ArrayList<Ant> ants = new ArrayList<Ant>();
+Food food;
+Base base;
 
-Ant[] ants = new Ant[numAnts];
-Base[] bases = new Base[numBases];
-Food[] foods = new Food[numFoods];
+PFont mainFont;
+PFont smallFont;
 
 void setup() {
-    fullScreen();
-    // size(900, 900);
+    // fullScreen();
+    size(900, 900);
     smooth();
+    background(255);
     frameRate(fRate);
     ellipseMode(CENTER);
     rectMode(CENTER);
     textAlign(CENTER, CENTER);
+    
+    mainFont = createFont("Poppins-Regular.ttf", 64);
+    smallFont = createFont("Poppins-Regular.ttf", 12);
 
-    PFont mainFont = createFont("Poppins-Regular.ttf", 64);
-    textFont(mainFont);
+    fill(0, 0, 0);
+    textFont(smallFont);
+    text("Ants: " + Integer.toString(ants.size()), 50, 10);
     
     fill(0, 255, 0);
-    for (int i=0; i<numFoods; i++) {
-        foods[i] = new Food(foodSize);
-    }
+    food = new Food(foodSize);
     
     fill(255, 255, 0);
-    for (int i=0; i<numBases; i++) {
-        bases[i] = new Base(baseSize);
-    }
+    base = new Base(baseSize);
     
     for (int i=0; i<numAnts; i++) {
-        ants[i] = new Ant(width, height);
+        ants.add(new Ant(width, height));
     }
 }
 
 void draw() {
     background(255);
+    fill(0, 0, 0);
+    textFont(smallFont);
+    text("Ants: " + Integer.toString(ants.size()), 50, 10);
     
     fill(0, 255, 0);
-    for (int i=0; i<numFoods; i++) {
-        if (foods[i].count <= 0) {
-            foods[i] = new Food(foodSize);
-        }
-        foods[i].update();
+    if (food.replaceTime > 0) {   
+        textFont(mainFont);
+        food.update();
+    } else {
+        food = new Food(foodSize);
     }
     
     fill(255, 255, 0);
-    for (int i=0; i<numBases; i++) {
-        bases[i].update();
-    }
+    textFont(mainFont);
+    base.update();
     
-    for (int i=0; i<numAnts; i++) {
-        for (int j=0; j<numFoods; j++) {
-            ants[i].interactFood(foods[j]);
-        }
+    for (int i=0; i<ants.size(); i++) {
+        ants.get(i).interactFood(food);
+        ants.get(i).interactBase(base);
         
-        for (int j=0; j<numBases; j++) {
-            ants[i].interactBase(bases[j]);
+        ants.get(i).draw();
+        ants.get(i).update();
+
+        if (ants.get(i).feed == true) {
+            ants.add(new Ant(width, height));
+            ants.get(i).feed = false;
         }
-        
-        ants[i].draw();
-        ants[i].update();
+
+        if (ants.get(i).liveTime <= 0) {
+            if (random(1) < 0.0001) { ants.remove(i); }
+        }
     }
 }

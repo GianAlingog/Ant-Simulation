@@ -17,7 +17,9 @@ class Ant {
     PVector velocity = new PVector();
     PVector direction = new PVector();
     
-    int maxX, maxY;
+    int maxX, maxY, liveTime = 5000;
+
+    boolean feed = false;
 
     float startX, startY;
     
@@ -35,6 +37,9 @@ class Ant {
     }
 
     void update() {
+        // Decrease the time the ant has left to live
+        liveTime--;
+
         // Heavily inspired by Sebastian Lague's code for random ant movement (Amazing Game Dev - Highly Recommend!)
         // https://www.youtube.com/watch?v=X-iSQQgOd1A
         // Here is the actual file, although he modifies the code to work for pheromones, which I won't do so we can see how (in)effective ants would be if they didn't have pheromones.
@@ -90,6 +95,8 @@ class Ant {
         if (this.state == State.CARRIER && (this.position.x > base.posX - baseSize/2 && this.position.x < base.posX + baseSize/2) && (this.position.y > base.posY - baseSize/2 && this.position.y < base.posY + baseSize/2)) {
             this.state = State.WORKER;
             base.count++;
+            liveTime = 5000;
+            feed = true;
         }
     }
 }
