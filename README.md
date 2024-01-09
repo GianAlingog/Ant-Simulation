@@ -11,3 +11,8 @@
 - Fixed detection for Ants within Base and Food
 - New Food spawns after previous one is depleted
 - Added Food and Base Counters
+
+## Version 1.0
+- Added a life cycle
+- Food now regenerates based on a set timer
+- Population counter is found at the top-left of the screen
