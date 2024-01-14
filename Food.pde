@@ -6,19 +6,15 @@ class Food {
     
     int size, replaceTime = 400, count = int(random(40, 61)); // 40-60
     float posX, posY;
-    final int clearance = 50;
+    final int clearance = 10;
     final int baseSize = 200;
     
     Food(int size) {
         this.size = size;
         
         // Makes sure the Food doesn't spawn in too close to the Base
-        // Note: This could spawn outside the screen, will fix soon.
-        posX = random(0 + size + clearance, width - clearance * 3 - baseSize);
-        posY = random(0 + size + clearance, height - clearance * 3 - baseSize);
-        
-        posX = ((abs(posX - width/2) < baseSize/2 + clearance + size/2) ? (posX + clearance * 3 + baseSize) : posX);
-        posY = ((abs(posY - height/2) < baseSize/2 + clearance + size/2) ? (posY + clearance * 3 + baseSize) : posY);
+        posX = random(2) < 1 ? (random(0 + size/2 + clearance, width/2 - baseSize/2 - clearance)) : (random(width/2 + baseSize/2 + clearance, width - size/2 - clearance));
+        posY = random(2) < 1 ? (random(0 + size/2 + clearance, height/2 - baseSize/2 - clearance)) : (random(width/2 + baseSize/2 + clearance, width - size/2 - clearance));
         
         update();
     }

@@ -1,11 +1,11 @@
 int numAnts = 1000;
-int numBases = 1;
-int numFoods = 1;
 
 int baseSize = 200;
 int foodSize = 150;
 
 int fRate = 60;
+
+final float chance = 0.0001;
 
 ArrayList<Ant> ants = new ArrayList<Ant>();
 Food food;
@@ -73,7 +73,7 @@ void draw() {
         }
 
         if (ants.get(i).liveTime <= 0) {
-            if (random(1) < 0.0001) { ants.remove(i); }
+            if (random(1) < chance) { ants.remove(i); }
         }
     }
 }
