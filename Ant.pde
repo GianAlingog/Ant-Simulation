@@ -1,14 +1,16 @@
+// Ant States
 enum State {
     WORKER,
     CARRIER
 }
 
 class Ant {
+    // Initialize Variables
     State state = State.WORKER;
     
-    final float maxSpeed = 5.0;
+    float maxSpeed = 5.0;
     final float steerStrength = 0.1;
-    final float wanderStrength = 1.0;
+    final float wanderStrength = 500.0;
 
     final int padding = 5;
     final int size = 5;
@@ -16,6 +18,7 @@ class Ant {
     PVector position = new PVector();
     PVector velocity = new PVector();
     PVector direction = new PVector();
+    PVector basePos = new PVector();
     
     int maxX, maxY, liveTime = 5000;
 
@@ -26,6 +29,7 @@ class Ant {
     final int baseSize = 200;
     final int foodSize = 150;
     
+    // Constructor
     Ant(int x, int y) {
         this.maxX = x;
         this.maxY = y;
@@ -47,7 +51,19 @@ class Ant {
 
         // Updates the direction the ant is moving
         // Creates a new vector and steers in that direction, limited by a steerStrength, from the original vector
-        direction = (direction.add(PVector.random2D().mult(wanderStrength)));
+        if (this.state == State.CARRIER) {
+            basePos = new PVector(width/2, height/2);
+            maxSpeed = 2.0; // Slower speed because Ant is carrying Food
+
+            // Random movement in direction of Base
+            direction = (direction.add(basePos.sub(position).add(PVector.random2D().mult(wanderStrength)))).normalize();
+        } else {
+            maxSpeed = 5.0; // Max Speed
+
+            // Random direction
+            direction = (direction.add(PVector.random2D().mult(wanderStrength))).normalize();
+        }
+
         PVector desiredVelocity = direction.mult(maxSpeed);
         PVector desiredSteerStrength = ((desiredVelocity.sub(velocity)).mult(steerStrength));
         PVector acceleration = desiredSteerStrength.limit(steerStrength);
@@ -77,26 +93,29 @@ class Ant {
     }
     
     void draw() {
+        // State Handler
         // I tried to use a switch-case, but it wouldn't work for enums
         if (this.state == State.WORKER) { fill(0, 0, 0); }
         if (this.state == State.CARRIER) { fill(255, 165, 0); }
     }
     
     void interactFood(Food food) {
-        // inCircle()
-        if (this.state == State.WORKER && (Math.pow(this.position.x - food.posX, 2) + Math.pow(this.position.y - food.posY, 2) < Math.pow(foodSize/2, 2))) {
-            this.state = State.CARRIER;
-            food.count--;
+        // Checks if the Ant is not already carrying Food and is within the Food
+        // Note: Implement an inCircle() method
+        if (food.count > 0 && this.state == State.WORKER && (Math.pow(this.position.x - food.posX, 2) + Math.pow(this.position.y - food.posY, 2) < Math.pow(foodSize/2, 2))) {
+            this.state = State.CARRIER; // Change Ant State
+            food.count--; // Update Counter
         }
     }
     
     void interactBase(Base base) {
-        // inSquare()
+        // Checks if the Ant is carrying Food and is within the Base
+        // Note: Implement an inSquare() method
         if (this.state == State.CARRIER && (this.position.x > base.posX - baseSize/2 && this.position.x < base.posX + baseSize/2) && (this.position.y > base.posY - baseSize/2 && this.position.y < base.posY + baseSize/2)) {
-            this.state = State.WORKER;
-            base.count++;
-            liveTime = 5000;
-            feed = true;
+            this.state = State.WORKER; // Change Ant State
+            base.count++; // Update Counter
+            liveTime = 5000; // Reset lifespan
+            feed = true; // Utilized for birth (See Ant_Simulation.pde)
         }
     }
 }

@@ -3,8 +3,10 @@ class Base {
     // This is the Ant Hill
     // There should be only one Ant Hill, and it should be possible for it to be placed anywhere on the screen.
     
+    // Initialize Variables
     int size, posX, posY, count = 0;
-  
+    
+    // Constructor
     Base(int size) {
         this.size = size;
         this.posX = width/2;
