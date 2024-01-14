@@ -16,3 +16,6 @@
 - Added a life cycle
 - Food now regenerates based on a set timer
 - Population counter is found at the top-left of the screen
+
+## Version 1.1
+- Fixed Food spawning out of bounds
