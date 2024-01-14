@@ -11,6 +11,7 @@
 - Fixed detection for Ants within Base and Food
 - New Food spawns after previous one is depleted
 - Added Food and Base Counters
+- Ants teleport to the other side of the screen if it goes out of bounds (Infinite Ground Effect)
 
 ## Version 1.0
 - Added a life cycle
@@ -19,3 +20,6 @@
 
 ## Version 1.1
 - Fixed Food spawning out of bounds
+
+## Version 1.2
+- Ants with Food return to Base
