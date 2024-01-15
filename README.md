@@ -22,4 +22,5 @@
 - Fixed Food spawning out of bounds
 
 ## Version 1.2
+- Fixed Ants generating Food when no Food is present
 - Ants with Food return to Base
